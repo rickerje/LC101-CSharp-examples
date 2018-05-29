@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "CheckBoxDelete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CheckBoxDelete</h2>
+<form method="post">
+@foreach(string cheese in ViewBag.cheeses.Keys)
+{
+    <label>@cheese</label><input type="checkbox" name="cheese" value="@cheese" />
+
+}
+<button type="submit">Delete Cheese(s)</button>
+</form>

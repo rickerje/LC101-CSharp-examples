@@ -1,0 +1,12 @@
+﻿@model IEnumerable<CheeseMVC.Models.Cheese.Cheese>
+@{
+    ViewData["Title"] = "DropDownDelete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DropDownDelete</h2>
+<form method="post">
+    @Html.DropDownList("Cheeses",new SelectList(Model, "Name" ,"Name"))
+    <button type="submit">Delete Cheese</button>
+</form>
+
