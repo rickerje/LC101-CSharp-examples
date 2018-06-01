@@ -9,11 +9,11 @@ namespace QuizApp.Models
     {        
         public abstract string Text { get; set; }
         public abstract IReadOnlyCollection<Answer> PossibleAnswers { get; protected set; }
+        public abstract List<Answer> SelectedAnswers { get; set; }
 
         public abstract void AddAnswer(Answer answer);
         public abstract void RemoveAnswer(Answer answer);
-        public abstract bool GradeQuestion(List<Answer> selectedAnswers);
-        
+        public abstract bool GradeQuestion();
     }
 
     public class Answer

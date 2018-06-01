@@ -5,16 +5,21 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Models
 {
-    public class TrueFalseQuestion : MultipleChoiceQuestion
+    public class TrueFalseQuestion : Question
     {
         private List<Answer> possibleAnswers = new List<Answer>();
+
         public override string Text { get; set; }
+
+        public override List<Answer> SelectedAnswers { get; set; }
+
         public override IReadOnlyCollection<Answer> PossibleAnswers
         {
-            get {return possibleAnswers.AsReadOnly();}
+            get { return possibleAnswers.AsReadOnly(); }
+            protected set { possibleAnswers = (List<Answer>)value; }
         }
 
-        public TrueFalseQuestion()
+        protected TrueFalseQuestion()
         {
             possibleAnswers.Add(new Answer { Text = "True" });
             possibleAnswers.Add(new Answer { Text = "False" });
@@ -36,9 +41,15 @@ namespace QuizApp.Models
             throw new NotImplementedException();
         }
 
-        public override bool GradeQuestion(List<Answer> selectedAnswers)
+        public void SetCorrectAnswer(int answerId)
         {
-            throw new NotImplementedException();
+            possibleAnswers.ForEach(ans => ans.IsCorrectAnswer = (ans.Id == answerId));
+        }
+
+        public override bool GradeQuestion()
+        {
+            string correctAnswer = possibleAnswers.Where(ans => ans.IsCorrectAnswer).Select(ans => ans.Text).Single();
+            return SelectedAnswers.Select(ans => ans.Text).Single() == correctAnswer;
         }
     }
 }
