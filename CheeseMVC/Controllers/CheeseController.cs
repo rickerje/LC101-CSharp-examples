@@ -9,13 +9,12 @@ namespace CheeseMVC.Controllers
 {
     public class CheeseController : Controller
     {
-        public static List<Cheese> cheeses = new List<Cheese>();
 
         [HttpGet]
         public IActionResult Index()
         {
-            
-            return View(cheeses);
+            List<Cheese> model = CheeseData.DisplayAll();
+            return View(model);
         }
 
         [HttpGet]
@@ -27,33 +26,36 @@ namespace CheeseMVC.Controllers
         [HttpPost]
         public IActionResult Add(Cheese cheese)
         {
-            cheeses.Add(cheese);
+            CheeseData.AddCheese(cheese);
             return Redirect("Index");
         }
 
         [HttpGet]
         public IActionResult CheckBoxDelete()
         {
-            ViewBag.cheeses = cheeses;
-            return View();
+            List<Cheese> model = CheeseData.DisplayAll();
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult CheckBoxDelete(string[] cheese)
+        public IActionResult CheckBoxDelete(int[] cheesesIdsToDelete)
         {
-
+            //convert integer array to list and for each id in list, call Remove method
+            cheesesIdsToDelete.ToList().ForEach(id => CheeseData.Remove(id));
             return Redirect("Index");
         }
 
         [HttpGet]
         public IActionResult DropDownDelete()
         {
-            return View(cheeses);
+            List<Cheese> model = CheeseData.DisplayAll();
+            return View(model);
         }
 
         [HttpPost]
         public IActionResult DropDownDelete(Cheese cheese)
         {
+            CheeseData.Remove(cheese);
             return Redirect("Index");
         }
     }
